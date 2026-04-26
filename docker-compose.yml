@@ -1,0 +1,17 @@
+services:
+  switchmate-bridge:
+    image: ghcr.io/alin5647/switchmate-bridge:latest
+    container_name: switchmate-bridge
+    restart: unless-stopped
+    
+    # CRITICAL: Bluetooth hardware access
+    network_mode: host
+    privileged: true
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    
+    # Since the ENTRYPOINT is "python switchmate.py", 
+    # the 'command' below provides the arguments.
+    # This example keeps the container alive by asking for status repeatedly,
+    # or you can leave it blank and use 'docker exec'.
+    command: ["C6:C4:66:78:F5:C7", "status"]
